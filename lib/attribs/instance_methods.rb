@@ -21,7 +21,15 @@ class Attribs
 
     def pp
       indent = ->(str) { str.lines.map {|l| "  #{l}"}.join }
-      format = ->(val) { val.respond_to?(:pp) ? val.pp : val.inspect }
+      format = ->(val) do
+        if val.respond_to?(:pp)
+          val.pp
+        elsif val.is_a? Time
+          "Time.parse(\"#{val.inspect}\")"
+        else
+          val.inspect
+        end
+      end
 
       values   = to_h_compact
 

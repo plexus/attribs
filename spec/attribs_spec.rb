@@ -67,7 +67,7 @@ RSpec.describe Attribs do
       end
 
       it 'should expect all attributes' do
-        expect { subject.new(foo: 5) }.to raise_exception
+        expect { subject.new(foo: 5) }.to raise_exception(Anima::Error::Missing)
       end
     end
   end
@@ -99,7 +99,7 @@ RSpec.describe Attribs do
       end
 
       it 'should expect all attributes' do
-        expect { subject.new(foo: 5, bar: 6) }.to raise_exception
+        expect { subject.new(foo: 5, bar: 6) }.to raise_exception(Anima::Error::Missing)
       end
     end
   end
@@ -113,7 +113,7 @@ RSpec.describe Attribs do
       end
 
       it 'should no longer recognize the old attributes' do
-        expect { subject.new(foo: 3, bar: 3).bar }.to raise_error
+        expect { subject.new(foo: 3, bar: 3).bar }.to raise_error(Anima::Error::Unknown)
       end
     end
 
@@ -125,7 +125,7 @@ RSpec.describe Attribs do
       end
 
       it 'should no longer recognize the old attributes' do
-        expect { subject.new(foo: 3).foo }.to raise_error
+        expect { subject.new(foo: 3).foo }.to raise_error(Anima::Error::Unknown)
       end
 
       it 'should keep the defaults' do
@@ -147,6 +147,13 @@ RSpec.describe Attribs::InstanceMethods do
     Class.new do
       include Attribs.new(widgets: [])
       def self.name ; 'WidgetContainer' ; end
+    end
+  end
+
+  let(:one_attr) do
+    Class.new do
+      include Attribs.new(:the_attr)
+      def self.name ; 'OneAttr' ; end
     end
   end
 
@@ -194,6 +201,11 @@ WidgetContainer.new(
     it 'should puts attributes on multiple lines if total length exceeds 50 chars' do
       expect(widget.new(color: fixed_width.new(18), size: fixed_width.new(18)).pp).to match /\n/
       expect(widget.new(color: fixed_width.new(18), size: fixed_width.new(17)).pp).to_not match /\n/
+    end
+
+    it 'should write out a readable representation of Time instanced' do
+      expect(one_attr.new(the_attr: Time.parse("2016-02-22 09:41:29 +1100")).pp)
+        .to eql 'OneAttr.new(the_attr: Time.parse("2016-02-22 09:41:29 +1100"))'
     end
   end
 
