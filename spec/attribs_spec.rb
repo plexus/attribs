@@ -67,7 +67,7 @@ RSpec.describe Attribs do
       end
 
       it 'should expect all attributes' do
-        expect { subject.new(foo: 5) }.to raise_exception(Anima::Error::Missing)
+        expect { subject.new(foo: 5) }.to raise_exception(Anima::Error, /missing: \[:bar\], unknown: \[\]/)
       end
     end
   end
@@ -99,7 +99,7 @@ RSpec.describe Attribs do
       end
 
       it 'should expect all attributes' do
-        expect { subject.new(foo: 5, bar: 6) }.to raise_exception(Anima::Error::Missing)
+        expect { subject.new(foo: 5, bar: 6) }.to raise_exception(Anima::Error, /missing: \[:bax\], unknown: \[\]/)
       end
     end
   end
@@ -113,7 +113,7 @@ RSpec.describe Attribs do
       end
 
       it 'should no longer recognize the old attributes' do
-        expect { subject.new(foo: 3, bar: 3).bar }.to raise_error(Anima::Error::Unknown)
+        expect { subject.new(foo: 3, bar: 3).bar }.to raise_exception(Anima::Error, /missing: \[\], unknown: \[:bar\]/)
       end
     end
 
@@ -125,7 +125,7 @@ RSpec.describe Attribs do
       end
 
       it 'should no longer recognize the old attributes' do
-        expect { subject.new(foo: 3).foo }.to raise_error(Anima::Error::Unknown)
+        expect { subject.new(foo: 3).foo }.to raise_exception(Anima::Error, /missing: \[\], unknown: \[:foo\]/)
       end
 
       it 'should keep the defaults' do
