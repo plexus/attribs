@@ -2,7 +2,7 @@
 
 Gem::Specification.new do |gem|
   gem.name          = "attribs"
-  gem.version       = "1.1.0"
+  gem.version       = "1.2.0"
   gem.authors       = ["Arne Brasseur"]
   gem.email         = ["arne@arnebrasseur.net"]
   gem.summary       = %q{Easy and flexible Ruby value objects.}

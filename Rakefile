@@ -6,8 +6,8 @@ gem.define
 
 desc "Push gem to rubygems.org"
 task :push => :gem do
-  sh "git tag v#{spec.version}"
-  sh "git push --tags"
+  # sh "git tag v#{spec.version}"
+  # sh "git push --tags"
   sh "gem push pkg/attribs-#{spec.version}.gem"
 end
 
