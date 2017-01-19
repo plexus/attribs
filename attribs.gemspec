@@ -16,7 +16,7 @@ Gem::Specification.new do |gem|
   gem.test_files    = gem.files.grep(%r{^spec/})
   gem.extra_rdoc_files = %w[README.md]
 
-  gem.add_runtime_dependency "anima", "~> 0.2.0"
+  gem.add_runtime_dependency "anima", "~> 0.3.0"
 
   gem.add_development_dependency "rake"
   gem.add_development_dependency "rspec", "~> 3.1"
